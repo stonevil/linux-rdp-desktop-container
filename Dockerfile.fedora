@@ -1,0 +1,50 @@
+# FROM fedora:${TAG:-42} AS builder
+#
+# RUN echo "Let's build pipewire-module-xrdp" && \
+# 	dnf install -y git gcc make autoconf libtool automake pkgconfig && \
+# 	dnf install -y pipewire-devel && \
+# 	cd / && \
+# 	git clone https://github.com/neutrinolabs/pipewire-module-xrdp.git && \
+# 	cd /pipewire-module-xrdp && \
+# 	./bootstrap && \
+# 	./configure && \
+# 	make && \
+# 	make install DESTDIR=/tmp/install
+
+FROM fedora:${TAG:-41}
+
+RUN echo "Let's build container" && \
+	dnf install -y https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm && \
+	# dnf config-manager setopt fedora-cisco-openh264.enabled=1 && \
+	curl -fsSL https://repo.librewolf.net/librewolf.repo | tee /etc/yum.repos.d/librewolf.repo && \
+	# dnf update -y && \
+	dnf install -y sudo zsh git && \
+	dnf install -y @base-x && \
+	dnf install -y xrdp xorgxrdp && \
+	dnf install -y xfconf xfdesktop xfwm4 xfce4-session xfce4-settings xfce4-panel xfce4-places-plugin xfce4-xkb-plugin xfce4-terminal thunar thunar-archive-plugin materia-gtk-theme ristretto mousepad && \
+	dnf swap -y --allowerasing ffmpeg-free ffmpeg && \
+	dnf swap -y --allowerasing libavcodec-free libavcodec-freeworld && \
+	# dnf install -y mpv openh264 x265 neovim links wget xz xarchiver p7zip-gui p7zip-plugins p7zip unrar librewolf handbrake handbrake-gui mkvtoolnix mkvtoolnix-gui qbittorrent && \
+	dnf install -y mpv x265 neovim links wget xz xarchiver p7zip-gui p7zip-plugins p7zip unrar librewolf handbrake handbrake-gui mkvtoolnix mkvtoolnix-gui qbittorrent && \
+	dnf remove -y dnfdragora* firewalld bluez blueman xfce4-screensaver xfce4-about xfce4-power-manager xfce4-screenshooter* xfce4-notifyd* abrt* geoclue2 anaconda* NetworkManager* systemd-networkd && \
+	ln -sf /usr/bin/nvim /usr/bin/vim && \
+	ln -sf /usr/bin/nvim /usr/bin/v && \
+	rm -rf /tmp/* /var/log/* /var/cache/libdnf/* /var/cache/libdnf5/* && \
+	dnf clean all
+
+# COPY --from=builder /tmp/install /
+# RUN sed -i 's|^Exec=.*|Exec=/usr/bin/pulseaudio|' /etc/xdg/autostart/pulseaudio-xrdp.desktop
+
+ENV LANG=en_US.UTF-8
+
+# Fix for runing on macOS
+ENV UID_MIN=501
+
+ENV PUID=${PUID:-1000}
+ENV PGID=${PGID:-1000}
+ENV PTZ=${PTZ:-Etc/UTC}
+
+EXPOSE 3389/tcp
+
+COPY entrypoint.sh /usr/bin/entrypoint
+ENTRYPOINT ["/usr/bin/entrypoint"]
