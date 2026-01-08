@@ -30,3 +30,5 @@ lazy-lock.json
 build.sh
 run.sh
 config
+home
+*.tar*

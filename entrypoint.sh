@@ -2,17 +2,20 @@
 
 # Create the user account
 if ! id remote >/dev/null 2>&1; then
+	remote_p=$(pwgen 16 1)
+	echo ${remote_p} > /remote
+
 	if [[ -f /etc/os-release ]]; then
 		. /etc/os-release
 		OS_ID=$ID
 
 		if [[ "$OS_ID" == "fedora" ]]; then
 			groupadd --force --gid ${PGID:-1000} remote
-			useradd --shell /bin/bash --uid ${PUID:-1000} --gid ${PGID:-1000} --groups wheel --password "$(openssl passwd ${PASS:-remote})" --create-home --home-dir /config remote
+			useradd --shell /bin/bash --uid ${PUID:-1000} --gid ${PGID:-1000} --groups wheel --password "$(openssl passwd ${remote_p:-remote})" --create-home --home-dir /config remote
 		elif [[ "$OS_ID" == "alpine" ]]; then
 			addgroup -g ${PGID:-1000} remote
 			adduser -s /bin/bash -u ${PUID:-1000} -g ${PGID:-1000} -G wheel -h /config remote
-			echo "remote:${PASS:-remote}" | /usr/sbin/chpasswd
+			echo "remote:${remote_p:-remote}" | /usr/sbin/chpasswd
 			echo "remote ALL=(ALL) ALL" >> /etc/sudoers
 			echo "Set disable_coredump false" >> /etc/sudoers.conf
 			xrdp-keygen xrdp auto
