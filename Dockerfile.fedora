@@ -21,27 +21,23 @@ RUN echo "Let's build container" && \
 	# dnf config-manager setopt fedora-cisco-openh264.enabled=1 && \
 	curl -fsSL https://repo.librewolf.net/librewolf.repo | tee /etc/yum.repos.d/librewolf.repo && \
 	# dnf update -y && \
-	dnf install -y sudo bash zsh git cracklib cracklib-dicts glibc-langpack-en pwgen && \
+	dnf install -y sudo bash zsh git cracklib cracklib-dicts glibc-langpack-en pwgen neovim links wget xz unrar && \
 	dnf install -y @base-x && \
 	dnf install -y xrdp xorgxrdp && \
 	dnf install -y xfconf xfdesktop xfwm4 xfce4-session xfce4-settings xfce4-panel xfce4-places-plugin xfce4-xkb-plugin xfce4-terminal thunar thunar-archive-plugin materia-gtk-theme ristretto mousepad && \
 	dnf swap -y --allowerasing ffmpeg-free ffmpeg && \
 	dnf swap -y --allowerasing libavcodec-free libavcodec-freeworld && \
-	# dnf install -y mpv openh264 x265 neovim links wget xz xarchiver p7zip-gui p7zip-plugins p7zip unrar librewolf handbrake handbrake-gui mkvtoolnix mkvtoolnix-gui qbittorrent && \
-	dnf install -y mpv x265 python3 python3-pip neovim links wget xz xarchiver p7zip-gui p7zip-plugins p7zip unrar librewolf handbrake handbrake-gui mkvtoolnix mkvtoolnix-gui qbittorrent && \
+	dnf install -y mpv x265 python3 python3-pip xarchiver p7zip-gui p7zip-plugins p7zip librewolf handbrake handbrake-gui mkvtoolnix mkvtoolnix-gui && \
 	python3 -m pip install --upgrade yt-dlp && \
-	dnf remove -y dnfdragora* firewalld bluez blueman xfce4-screensaver xfce4-about xfce4-power-manager xfce4-screenshooter* xfce4-notifyd* abrt* geoclue2 anaconda* NetworkManager* systemd-networkd && \
+	dnf remove -y dnfdragora* firewalld bluez blueman xfce4-screensaver xfce4-about xfce4-power-manager xfce4-screenshooter* xfce4-notifyd* abrt* geoclue2 anaconda* NetworkManager* systemd-networkd nano && \
 	ln -sf /usr/bin/nvim /usr/bin/vim && \
+	ln -sf /usr/bin/nvim /usr/bin/vi && \
 	ln -sf /usr/bin/nvim /usr/bin/v && \
 	rm -rf /tmp/* /var/log/* /var/cache/libdnf/* /var/cache/libdnf5/* && \
 	dnf clean all
 
 # COPY --from=builder /tmp/install /
 # RUN sed -i 's|^Exec=.*|Exec=/usr/bin/pulseaudio|' /etc/xdg/autostart/pulseaudio-xrdp.desktop
-
-ENV LANG="en_US.UTF-8"
-ENV LANGUAGE="en_US:UTF-8"
-ENV LC_ALL="en_US.UTF-8"
 
 # Fix for runing on macOS
 ENV UID_MIN=501
@@ -53,4 +49,6 @@ ENV PTZ=${PTZ:-Etc/UTC}
 EXPOSE 3389/tcp
 
 ADD entrypoint.sh /usr/bin/entrypoint.sh
+
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+# ENTRYPOINT ["while" "true;" "do" "sleep 60;" "done"]
