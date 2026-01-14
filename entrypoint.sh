@@ -3,7 +3,7 @@
 if ! id remote >/dev/null 2>&1; then
 	remote_p=$(pwgen 12 1)
 	echo ${remote_p} > /remote
-	echo "password:" ${remote_p}
+	echo "password:" ${remote_p} >&2
 
 	if [[ -f /etc/os-release ]]; then
 		. /etc/os-release
