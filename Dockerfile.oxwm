@@ -1,0 +1,70 @@
+FROM alpine:${TAG:-3.23} AS builder
+RUN echo "Let's build oxwm" && \
+	apk --no-cache update && \
+	apk --no-cache upgrade && \
+	apk --update fix && \
+	apk --no-cache add git rust cargo libx11-dev libxft-dev && \
+	cd ~ && \
+	git clone https://github.com/tonybanters/oxwm.git && \
+	cd oxwm && \
+	cargo build --release && \
+	cp target/release/oxwm /tmp/oxwm && \
+	chmod 755 /tmp/oxwm
+
+RUN echo "Let's build bgs" && \
+	apk --no-cache add git make gcc musl-dev libx11-dev libxft-dev imlib2-dev libxinerama-dev && \
+	cd ~ && \
+	git clone https://github.com/Gottox/bgs.git && \
+	cd bgs && \
+	make clean install && \
+	cp bgs /tmp/bgs && \
+	chmod 755 /tmp/bgs
+
+# ---
+FROM alpine:${TAG:-3.23}
+MAINTAINER stone
+LABEL io.stone.tags="rdp, oxwm, alpine"
+
+RUN echo "Let's build container" && \
+	apk --no-cache update && \
+	apk --no-cache upgrade && \
+	apk --update fix && \
+	apk --no-cache add doas bash zsh ncurses neovim fzf wget xz 7zip pwgen cracklib && \
+	echo 'permit nopass :wheel' > /etc/doas.d/remote.conf && \
+	ln -sf /usr/bin/doas /usr/bin/sudo && \
+	apk --no-cache add alpine-conf && \
+	apk --no-cache add xf86-video-vesa xf86-video-fbdev && \
+	setup-xorg-base || true && \
+	apk --no-cache add xrdp xorgxrdp && \
+	apk --no-cache add dmenu alacritty setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
+	apk --no-cache add breeze-gtk breeze-icons && \
+	apk --no-cache add thunar thunar-archive-plugin xarchiver mousepad && \
+	apk --no-cache add librewolf mpv ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
+	ln -sf /usr/bin/nvim /usr/bin/v && \
+	ln -sf /usr/bin/nvim /usr/bin/vi && \
+	ln -sf /usr/bin/nvim /usr/bin/vim && \
+	rm -rf /tmp/* /var/cache/apk/* /var/log/*
+
+COPY --from=builder /tmp/oxwm /usr/bin/oxwm
+COPY --from=builder /tmp/bgs /usr/bin/bgs
+
+ENV LANG="en_US.UTF-8"
+ENV LANGUAGE="en_US:UTF-8"
+ENV LC_ALL="en_US.UTF-8"
+
+# Fix for runing on macOS
+ENV UID_MIN=501
+
+ENV PUID=${PUID:-1000}
+ENV PGID=${PGID:-1000}
+ENV PTZ=${PTZ:-Etc/UTC}
+
+EXPOSE 3389/tcp
+
+ADD skel /etc/skel
+ADD bin/y.sh /usr/bin/y.sh
+ADD bin/dmenu.sh /usr/bin/dmenu.sh
+ADD entrypoint.alpine.sh /usr/bin/entrypoint.sh
+
+ENTRYPOINT ["/usr/bin/entrypoint.sh"]
+# ENTRYPOINT ["while" "true;" "do" "sleep 60;" "done"]
