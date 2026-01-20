@@ -44,6 +44,17 @@
       <command>ghb</command>
       <startupnotify>
         <enabled>yes</enabled>
+        <wmclass>HandBrake</wmclass>
+      </startupnotify>
+    </action>
+  </item>
+
+  <item label="Ristretto">
+    <action name="Execute">
+      <command>ristretto</command>
+      <startupnotify>
+        <enabled>yes</enabled>
+        <wmclass>Ristretto</wmclass>
       </startupnotify>
     </action>
   </item>
@@ -55,6 +66,7 @@
       <command>Thunar</command>
       <startupnotify>
         <enabled>yes</enabled>
+        <wmclass>Thunar</wmclass>
       </startupnotify>
     </action>
   </item>
