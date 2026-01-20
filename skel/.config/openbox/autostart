@@ -1,0 +1,4 @@
+# These things are run when an Openbox X Session is started.
+bgs ~/.local/share/wallpapers/default.png &
+
+sleep 10; setxkbmap -layout us,ua -variant ,macOS -option "grp:alt_shift_toggle" &

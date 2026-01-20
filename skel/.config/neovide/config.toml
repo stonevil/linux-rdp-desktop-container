@@ -1,0 +1,7 @@
+frame = "full"
+
+mouse-cursor-icon = "arrow"
+
+[font]
+normal = [] # Will use the bundled Fira Code Nerd Font by default
+size = 10

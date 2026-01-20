@@ -1,0 +1,149 @@
+# vim:ft=zsh :
+# shellcheck source=/dev/null
+
+# UTF-8 everywhere
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US:en
+export LC_TIME=en_US.UTF-8
+export LC_COLLATE=en_US.UTF-8
+export LC_CTYPE=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+export LC_MEASUREMENT=metric
+
+# Enforce colour
+export CLICOLOR=1
+export MANPAGER="less -R --tabs=2 --use-color -Dd+r -Du+b"
+
+# Set tab widht
+export PAGER="less -R --tabs=2"
+
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=$HISTSIZE
+HISTDUP=erase
+
+setopt inc_append_history share_history hist_ignore_dups hist_ignore_all_dups hist_ignore_space hist_find_no_dups hist_verify extended_glob nomatch interactive_comments
+unsetopt beep list_beep
+
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
+autoload -Uz colors && colors
+
+autoload -Uz compinit && compinit
+zstyle ':completion:*' menu select
+# auto complete with case insenstivity
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+
+zmodload zsh/complist && compinit
+_comp_options+=(globdots)
+
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
+zstyle ':completion:*:*:*:*:processes' command "ps -u `whoami` -o pid,user,comm -w -w"
+zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
+
+# VI mode
+bindkey -v
+
+# allow ctrl-v to edit the command line
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^v' edit-command-line
+bindkey -M vicmd "^v" edit-command-line
+
+# allow ctrl-p, ctrl-n for navigate history (standard behaviour)
+bindkey '^p' up-history
+bindkey '^n' down-history
+
+# allow ctrl-h, ctrl-w, ctrl-? for char and word deletion (standard behaviour)
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+
+# allow ctrl-r and ctrl-s to search the history
+bindkey '^r' history-incremental-search-backward
+bindkey '^s' history-incremental-search-forward
+
+# allow ctrl-a and ctrl-e to move to beginning/end of line
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+
+# exapand history reference when command starts with ! (or ^)
+bindkey " " magic-space
+
+# ci", ci', ci`, di", etc
+autoload -U select-quoted
+zle -N select-quoted
+for m in visual viopp; do
+	for c in {a,i}{\',\",\`}; do
+		bindkey -M $m $c select-quoted
+	done
+done
+
+# ci{, ci(, ci<, di{, etc
+autoload -U select-bracketed
+zle -N select-bracketed
+for m in visual viopp; do
+	for c in {a,i}${(s..)^:-'()[]{}<>bB'}; do
+		bindkey -M $m $c select-bracketed
+	done
+done
+
+# Just type the filename to open it with the associated program
+alias -s md=less
+alias -s go='$EDITOR'
+alias -s tmpl='$EDITOR'
+alias -s rs='$EDITOR'
+alias -s txt='$EDITOR'
+alias -s log='$EDITOR'
+alias -s py='$EDITOR'
+alias -s js='$EDITOR'
+alias -s ts='$EDITOR'
+alias -s mmd='$EDITOR'
+
+
+alias -g NE='2>/dev/null' # Redirect stderr to /dev/null
+alias -g NO='>/dev/null' # Redirect stdout to /dev/null
+alias -g NUL='>/dev/null 2>&1' # Redirect both stdout and stderr to /dev/null
+alias -g DO='& disown' # Disown process
+
+alias -g M='| less' # Pipe to less
+alias -g G='| grep' # Pipe to grep
+
+
+# Enable zmv
+autoload -Uz zmv
+# Usage examples:
+# zmv '(*).log' '$1.txt'		# Rename .log to .txt
+# zmv -w '*.log' '*.txt'		# Same thing, simpler syntax
+# zmv -n '(*).log' '$1.txt'	# Dry run (preview changes)
+# zmv -i '(*).log' '$1.txt'	# Interactive mode (confirm each)
+
+alias ls='ls --color=auto'
+alias l='ls -lhF'
+alias ll='ls -AlhF'
+alias la='ls -AhF'
+
+alias ..='cd ..'
+
+alias grep='grep --color=auto'
+alias diff='diff --color=auto'
+
+alias less='less -R --tabs=2'
+alias more='less'
+
+alias gr="grep -r"
+
+alias g='git'
+
+export FZF_DEFAULT_OPTS='--color=info:gray,pointer:magenta,marker:magenta,spinner:magenta,prompt:magenta --bind ctrl-p:toggle-preview,ctrl-f:page-down,ctrl-b:page-up,alt-f:preview-page-down,alt-b:preview-page-up --border --preview-window bottom:hidden --height 80% --layout=reverse --preview "if [[ -d {} ]]; then tree -C {} | head -100; else if [[ $(file --mime {}) =~ binary ]]; then echo {} is a binary file; else bat --style=numbers,changes --color=always --line-range :100 {}; fi; fi"'
+export FZF_DEFAULT_COMMAND_IGNORE="--exclude .git --exclude .svn --exclude node_modules --exclude .undodir --exclude .session.vim --exclude .DS_Store"
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix $FZF_DEFAULT_COMMAND_IGNORE"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix $FZF_DEFAULT_COMMAND_IGNORE"
+
+zstyle ':completion:*' menu no
+bindkey -s '^z' ' **\t'
+bindkey 'ç' fzf-cd-widget
+
+export PS1="%{$(tput setaf 11)%}%n%{$(tput setaf 12)%}@%{$(tput setaf 1)%}%m %{$(tput setaf 12)%}%1~ %{$(tput sgr0)%}$ "
