@@ -1,10 +1,10 @@
 echo "Stop and delete container"
-limactl shell podman-amd64 podman stop rdek
-limactl shell podman-amd64 podman rm rdek
+podman stop rdek
+podman rm -f rdek
 
 echo "Delete container image"
-limactl shell podman-amd64 podman image rm rdek
+podman image rm rdek
 
 echo "Build container"
-# --squash-all
-limactl shell podman-amd64 podman build --rm --tag rdek -f Dockerfile.fedora -t rdek .
+# add this option to build command to make container even smaller: --squash-all
+podman build --rm --tag rdek -f Dockerfile.openbox -t rdek .
