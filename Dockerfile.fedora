@@ -22,6 +22,7 @@ RUN echo "Let's build container" && \
 	curl -fsSL https://repo.librewolf.net/librewolf.repo | tee /etc/yum.repos.d/librewolf.repo && \
 	# dnf update -y && \
 	dnf install -y sudo bash zsh ncurses glibc-langpack-en neovim fzf wget xz p7zip pwgen cracklib cracklib-dicts && \
+	dnf install -y xorg-x11-drv-vesa xorg-x11-drv-fbdev && \
 	dnf install -y @base-x && \
 	dnf install -y xrdp xorgxrdp && \
 	dnf install -y xfconf xfdesktop xfwm4 xfce4-session xfce4-settings xfce4-panel xfce4-places-plugin xfce4-xkb-plugin thunar thunar-archive-plugin xfce4-terminal materia-gtk-theme ristretto mousepad && \
