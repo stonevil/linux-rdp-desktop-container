@@ -28,12 +28,13 @@ RUN echo "Let's build container" && \
 	setup-xorg-base || true && \
 	apk --no-cache add xrdp xorgxrdp && \
 	apk --no-cache add openbox && \
-	apk --no-cache add dmenu alacritty setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
+	apk --no-cache add dmenu st setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
 	apk --no-cache add breeze-gtk breeze-icons && \
 	# apk add yaru-theme-sage --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
 	# apk add yaru-icon-theme-sage --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
 	apk --no-cache add thunar thunar-archive-plugin xarchiver ristretto mousepad && \
-	apk --no-cache add librewolf mpv ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
+	apk --no-cache add mpv ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
+	apk --no-cache add librewolf --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
 	ln -sf /usr/bin/nvim /usr/bin/v && \
 	ln -sf /usr/bin/nvim /usr/bin/vi && \
 	ln -sf /usr/bin/nvim /usr/bin/vim && \
