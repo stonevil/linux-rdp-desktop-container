@@ -3,13 +3,22 @@ RUN echo "Let's build bgs" && \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
-	apk --no-cache add git make gcc musl-dev libx11-dev libxft-dev imlib2-dev libxinerama-dev && \
+	apk --no-cache add git make gcc musl-dev libx11-dev libxft-dev imlib2-dev libxinerama-dev clang21 glib-dev && \
 	cd ~ && \
 	git clone https://github.com/Gottox/bgs.git && \
 	cd bgs && \
 	make clean install && \
 	cp bgs /tmp/bgs && \
 	chmod 755 /tmp/bgs
+
+RUN echo "Let's build xdgctl" && \
+	cd ~ && \
+	git clone https://github.com/mitjafelicijan/xdgctl.git && \
+	cd xdgctl && \
+	make clean && \
+	make && \
+	cp xdgctl /tmp/xdgctl && \
+	chmod 755 /tmp/xdgctl
 
 # ---
 FROM alpine:${TAG:-3.23}
@@ -42,6 +51,7 @@ RUN echo "Let's build container" && \
 	rm -rf /tmp/* /var/cache/apk/* /var/log/*
 
 COPY --from=builder /tmp/bgs /usr/bin/bgs
+COPY --from=builder /tmp/xdgctl /usr/bin/xdgctl
 
 ENV LANG="en_US.UTF-8"
 ENV LANGUAGE="en_US:UTF-8"
