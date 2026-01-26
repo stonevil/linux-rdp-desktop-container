@@ -1,4 +1,4 @@
-TerminalEmulator=alacritty
+TerminalEmulator=st
 TerminalEmulatorDismissed=true
 MailReader=thunderbird
 WebBowser=librewolf

@@ -15,12 +15,12 @@
 </menu>
 
 <menu id="apps-term-menu" label="Terminals">
-  <item label="Alacritty">
+  <item label="Suckless Terminal">
     <action name="Execute">
-      <command>alacritty</command>
+      <command>st</command>
       <startupnotify>
         <enabled>yes</enabled>
-        <wmclass>Alacritty</wmclass>
+        <wmclass>st</wmclass>
       </startupnotify>
     </action>
   </item>
