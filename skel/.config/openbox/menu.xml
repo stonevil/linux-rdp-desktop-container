@@ -38,7 +38,7 @@
   </item>
 </menu>
 
-<menu id="apps-multimedia-menu" label="Multimedia">
+<menu id="apps-multimedia-menu" label="Media">
   <item label="HandBrake">
     <action name="Execute">
       <command>ghb</command>
