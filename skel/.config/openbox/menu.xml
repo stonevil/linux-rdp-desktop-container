@@ -15,12 +15,12 @@
 </menu>
 
 <menu id="apps-term-menu" label="Terminals">
-  <item label="Suckless Terminal">
+  <item label="UX Terminal">
     <action name="Execute">
-      <command>st</command>
+      <command>uxterm</command>
       <startupnotify>
         <enabled>yes</enabled>
-        <wmclass>st</wmclass>
+        <wmclass>uxterm</wmclass>
       </startupnotify>
     </action>
   </item>

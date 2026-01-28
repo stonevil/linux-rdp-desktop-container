@@ -29,7 +29,7 @@ RUN echo "Let's build container" && \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
-	apk --no-cache add doas bash zsh ncurses neovim fzf wget xz 7zip pwgen cracklib && \
+	apk --no-cache add doas bash zsh ncurses neovim fzf wget xz 7zip pwgen cracklib openssl && \
 	echo 'permit nopass :wheel' > /etc/doas.d/remote.conf && \
 	ln -sf /usr/bin/doas /usr/bin/sudo && \
 	apk --no-cache add alpine-conf && \
@@ -37,7 +37,7 @@ RUN echo "Let's build container" && \
 	setup-xorg-base || true && \
 	apk --no-cache add xrdp xorgxrdp && \
 	apk --no-cache add openbox && \
-	apk --no-cache add dmenu st setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
+	apk --no-cache add dmenu xterm setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
 	apk --no-cache add breeze-gtk breeze-icons && \
 	# apk --no-cache add tint2 && \
 	# apk --no-cache add yaru-theme-sage --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
