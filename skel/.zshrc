@@ -88,6 +88,10 @@ for m in visual viopp; do
 	done
 done
 
+# Copy / Paste
+alias pbcopy='xclip -sel clip'
+alias pbpaste='xclip -o -sel clip'
+
 # Just type the filename to open it with the associated program
 alias -s md=less
 alias -s go='$EDITOR'
