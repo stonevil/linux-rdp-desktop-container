@@ -1,4 +1,6 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
+
+if [ -n "$BASH_ENV" ]; then . "$BASH_ENV"; fi
 
 echo "Remove conatiner"
 podman rm -f rdek

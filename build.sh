@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+if [ -n "$BASH_ENV" ]; then . "$BASH_ENV"; fi
+
 echo "Stop and delete container"
 podman stop rdek
 podman rm -f rdek
