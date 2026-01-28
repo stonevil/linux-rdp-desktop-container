@@ -5,7 +5,7 @@ if ! id remote >/dev/null 2>&1; then
 	echo ${remote_p} > /remote
 	echo "password:" ${remote_p} >&2
 
-	adduser -s /bin/bash -u ${PUID:-1000} -h /config remote
+	adduser -s /bin/zsh -u ${PUID:-1000} -h /config remote
 	addgroup remote wheel
 	echo "remote:${remote_p:-remote}" | /usr/sbin/chpasswd
 	xrdp-keygen xrdp auto
