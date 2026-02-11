@@ -27,7 +27,7 @@
 
 *xterm.termName: xterm-256color
 *xterm.vt100.TiteInhibit: True
-*xterm.vt100.geometry: 120x34
+*xterm.vt100.geometry: 80x24
 
 *xterm*faceName: xft:monospace
 *xterm*faceSize: 13
