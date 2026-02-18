@@ -40,5 +40,5 @@ reset: arch
 	limactl factory-reset podman-$(ARCH)
 .PHONY : reset
 
-all: build start
+all: clean build start
 .PHONY : all
