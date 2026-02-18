@@ -16,7 +16,7 @@ build: arch
 .PHONY : build
 
 start: arch
-	$(COMMAND) start $(CONTAINER_NAME)
+	$(COMMAND) run -d --shm-size="1gb" --memory="4gb" --name="$(CONTAINER_NAME)" -p 3389:3389 -e PUID=${UID} -e PGID=${GID} localhost/$(CONTAINER_NAME)
 	$(COMMAND) exec -it $(CONTAINER_NAME) bash -c 'cat /remote'
 .PHONY : start
 
