@@ -32,6 +32,12 @@ clean: arch
 	$(COMMAND) image rm -f localhost/$(CONTAINER_NAME)
 .PHONY : clean
 
+save: arch
+	rm -f $(CONTAINER_NAME).{tar,tar.xz}
+	$(COMMAND) image save $(CONTAINER_NAME) > $(CONTAINER_NAME).tar
+	xz $(CONTAINER_NAME).tar
+.PHONY : save
+
 halt: arch
 	limactl stop -f podman-$(ARCH)
 .PHONY : halt
