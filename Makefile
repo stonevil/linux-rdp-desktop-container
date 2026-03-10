@@ -34,8 +34,7 @@ clean: arch
 
 save: arch
 	rm -f $(CONTAINER_NAME).{tar,tar.xz}
-	$(COMMAND) image save $(CONTAINER_NAME) > $(CONTAINER_NAME).tar
-	xz $(CONTAINER_NAME).tar
+	$(COMMAND) image save $(CONTAINER_NAME) > $(CONTAINER_NAME).tar && xz $(CONTAINER_NAME).tar
 .PHONY : save
 
 halt: arch
