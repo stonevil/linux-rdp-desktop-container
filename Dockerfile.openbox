@@ -70,6 +70,8 @@ ENV PTZ=${PTZ:-Etc/UTC}
 
 EXPOSE 3389/tcp
 
+ADD skel/.themes/current /usr/share/themes/current
+
 ADD skel /etc/skel
 ADD bin/y.sh /usr/bin/y.sh
 ADD bin/dmenu.sh /usr/bin/dmenu.sh
