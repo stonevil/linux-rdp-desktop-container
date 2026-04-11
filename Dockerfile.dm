@@ -1,4 +1,5 @@
-# ---
+# vim:ft=Dockerfile
+
 FROM localhost/rd
 MAINTAINER stone
 LABEL io.stone.tags="rdp, openbox, alpine, internet, media"
@@ -9,7 +10,11 @@ RUN echo "Let's build container" && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
 	apk --no-cache add mpv ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
-		apk --no-cache add qbittorrent --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
+	apk --no-cache add qbittorrent --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
+	ln -sf /usr/bin/nvim /usr/bin/v && \
+	ln -sf /usr/bin/nvim /usr/bin/vi && \
+	ln -sf /usr/bin/nvim /usr/bin/vim && \
+	rm -rf /tmp/* /var/cache/apk/* /var/log/*
 
 ENV LANG="en_US.UTF-8"
 ENV LANGUAGE="en_US:UTF-8"
@@ -23,6 +28,8 @@ ENV PGID=${PGID:-1000}
 ENV PTZ=${PTZ:-Etc/UTC}
 
 EXPOSE 3389/tcp
+
+ADD openbox_menus/menu_dm.xml /etc/skel/.config/openbox/menu.xml
 
 ENTRYPOINT ["/usr/bin/entrypoint.sh"]
 # ENTRYPOINT ["while" "true;" "do" "sleep 60;" "done"]
