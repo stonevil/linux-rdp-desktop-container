@@ -32,7 +32,6 @@
 					<command>ristretto</command>
 				</action>
 			</item>
-			</item>
 		</menu>
 		<separator label="System" />
 		<item label="  Reconfigure">

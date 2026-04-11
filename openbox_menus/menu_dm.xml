@@ -13,6 +13,11 @@
 					<command>librewolf</command>
 				</action>
 			</item>
+			<item label="󱑤  qBittorrent">
+				<action name="Execute">
+					<command>qbittorrent</command>
+				</action>
+			</item>
 		</menu>
 		<menu id="office" label="󰏆  Office">
 			<item label="󰪶  File Browser">
@@ -30,11 +35,6 @@
 			<item label="  Image Viewer">
 				<action name="Execute">
 					<command>ristretto</command>
-				</action>
-			</item>
-			<item label="  Video Player">
-				<action name="Execute">
-					<command>mpv</command>
 				</action>
 			</item>
 			<item label="  Video Convertor">
