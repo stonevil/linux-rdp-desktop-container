@@ -30,7 +30,7 @@
 *xterm.vt100.geometry: 80x24
 
 *xterm*faceName: xft:monospace
-*xterm*faceSize: 13
+*xterm*faceSize: 12
 
 ! Copy / Paste bindings
 *vt100*translations: #override \n\
