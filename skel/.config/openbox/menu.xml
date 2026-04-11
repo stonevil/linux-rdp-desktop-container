@@ -1,94 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
 
-<menu id="apps-editors-menu" label="Editors">
-  <item label="Mousepad">
-    <action name="Execute">
-      <command>mousepad</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>Mousepad</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
-<menu id="apps-term-menu" label="Terminals">
-  <item label="UX Terminal">
-    <action name="Execute">
-      <command>uxterm</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>uxterm</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
-<menu id="apps-net-menu" label="Internet">
-  <item label="Librewolf">
-    <action name="Execute">
-      <command>librewolf</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>Librewolf</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
-<menu id="apps-multimedia-menu" label="Media">
-  <item label="HandBrake">
-    <action name="Execute">
-      <command>ghb</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>HandBrake</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-
-  <item label="Ristretto">
-    <action name="Execute">
-      <command>ristretto</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>Ristretto</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
-<menu id="apps-fileman-menu" label="File Managers">
-  <item label="Thunar">
-    <action name="Execute">
-      <command>Thunar</command>
-      <startupnotify>
-        <enabled>yes</enabled>
-        <wmclass>Thunar</wmclass>
-      </startupnotify>
-    </action>
-  </item>
-</menu>
-
-<menu id="system-menu" label="System">
-  <item label="Reconfigure Openbox">
-    <action name="Reconfigure" />
-  </item>
-</menu>
-
-<menu id="root-menu" label="Openbox 3">
-  <separator label="Applications" />
-  <menu id="apps-net-menu"/>
-  <menu id="apps-multimedia-menu"/>
-  <menu id="apps-editors-menu"/>
-  <menu id="apps-term-menu"/>
-  <menu id="apps-fileman-menu"/>
-  <separator />
-  <separator label="System" />
-  <menu id="system-menu"/>
-  <separator />
-</menu>
+	<menu id="root-menu" label="Openbox 3">
+		<item label="  Terminal">
+			<action name="Execute">
+				<command>uxterm</command>
+			</action>
+		</item>
+		<menu id="web" label="󰖟  Web">
+			<item label="  Web Browser">
+				<action name="Execute">
+					<command>librewolf</command>
+				</action>
+			</item>
+		</menu>
+		<menu id="office" label="󰏆  Office">
+			<item label="󰪶  File Browser">
+				<action name="Execute">
+					<command>thunar</command>
+				</action>
+			</item>
+			<item label="  Text Editor">
+				<action name="Execute">
+					<command>mousepad</command>
+				</action>
+			</item>
+		</menu>
+		<menu id="media" label="  Media">
+			<item label="  Image Viewer">
+				<action name="Execute">
+					<command>ristretto</command>
+				</action>
+			</item>
+			</item>
+		</menu>
+		<separator label="System" />
+		<item label="  Reconfigure">
+			<action name="Reconfigure" />
+		</item>
+	</menu>
 
 </openbox_menu>
