@@ -9,11 +9,8 @@ RUN echo "Let's build container" && \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
-	apk --no-cache add mpv ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
+	apk --no-cache add ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
 	apk --no-cache add qbittorrent --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
-	ln -sf /usr/bin/nvim /usr/bin/v && \
-	ln -sf /usr/bin/nvim /usr/bin/vi && \
-	ln -sf /usr/bin/nvim /usr/bin/vim && \
 	rm -rf /tmp/* /var/cache/apk/* /var/log/*
 
 ENV LANG="en_US.UTF-8"

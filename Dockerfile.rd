@@ -46,7 +46,7 @@ RUN echo "Let's build container" && \
 	apk --no-cache add xrdp xorgxrdp && \
 	apk --no-cache add openbox dmenu xterm setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
 	apk --no-cache add breeze-gtk breeze-icons && \
-	apk --no-cache add thunar thunar-archive-plugin xarchiver ristretto mousepad && \
+	apk --no-cache add thunar thunar-archive-plugin xarchiver ristretto mousepad mpv && \
 	apk --no-cache add librewolf --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
 	ln -sf /usr/bin/nvim /usr/bin/v && \
 	ln -sf /usr/bin/nvim /usr/bin/vi && \
