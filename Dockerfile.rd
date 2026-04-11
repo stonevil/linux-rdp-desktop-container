@@ -1,3 +1,6 @@
+# vim:ft=Dockerfile
+
+# Build required tools
 FROM alpine:${TAG:-3.23} AS builder
 RUN echo "Let's build bgs" && \
 	apk --no-cache update && \
@@ -24,7 +27,7 @@ RUN echo "Let's download unrar" && \
 	curl -LsSf https://api.github.com/repos/EDM115/unrar-alpine/releases/latest | jq -r '.assets[] | select(.name == "unrar") | .id' | xargs -I {} curl -LsSf https://api.github.com/repos/EDM115/unrar-alpine/releases/assets/{} | jq -r '.browser_download_url' | xargs -I {} curl -Lsf {} -o /tmp/unrar && \
 	chmod 755 /tmp/unrar
 
-# ---
+# Build main container
 FROM alpine:${TAG:-3.23}
 MAINTAINER stone
 LABEL io.stone.tags="rdp, openbox, alpine"
