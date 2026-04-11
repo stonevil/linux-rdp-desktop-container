@@ -3,47 +3,69 @@ default_target: all
 
 SHELL = /bin/zsh -i
 
-ARCH ?= amd64
-CONTAINER_NAME = rdek
-COMMAND ?= limactl shell podman-$(ARCH) podman
+# Define system architecture. Options: arm64 AND amd64. Example: ARCH=amd64 make build
+ARCH ?= arm64
+# rd - Remote Desktop, base container. Example: NAME=dm make build
+NAME ?= rd
+COMMAND ?= limactl shell $(ARCH) podman
 
+# Build and manage containers
 arch:
 	$(info Current architecture is: $(ARCH))
 .PHONY : arch
 
 build: arch
-	 $(COMMAND) build --squash-all --rm --tag $(CONTAINER_NAME) -f Dockerfile.openbox -t $(CONTAINER_NAME) .
+	 $(COMMAND) build --squash-all --rm --tag $(NAME) -f Dockerfile.$(NAME) -t $(NAME) .
 .PHONY : build
 
-start: arch
-	$(COMMAND) run -d --shm-size="1gb" --memory="4gb" --name="$(CONTAINER_NAME)" -p 3389:3389 -e PUID=${UID} -e PGID=${GID} localhost/$(CONTAINER_NAME)
-	$(COMMAND) exec -it $(CONTAINER_NAME) bash -c 'cat /remote'
+run: arch remove
+	$(COMMAND) run -d --shm-size="1gb" --memory="4gb" --name="$(NAME)" -p 3389:3389 -e PUID=${UID} -e PGID=${GID} localhost/$(NAME)
+	$(COMMAND) exec -it $(NAME) bash -c 'cat /remote'
 .PHONY : start
 
+pw: arch
+	$(COMMAND) exec -it $(NAME) bash -c 'cat /remote' | pbcopy
+.PHONY : pw
+
 stop: arch
-	$(COMMAND) stop $(CONTAINER_NAME)
+	$(COMMAND) stop $(NAME)
 .PHONY : stop
 
 remove: arch
-	$(COMMAND) rm -f $(CONTAINER_NAME)
+	$(COMMAND) rm -f $(NAME)
 .PHONY : remove
 
 clean: arch
-	$(COMMAND) image rm -f localhost/$(CONTAINER_NAME)
+	$(COMMAND) image rm -f localhost/$(NAME)
 .PHONY : clean
 
 save: arch
-	rm -f $(CONTAINER_NAME).{tar,tar.xz}
-	$(COMMAND) image save $(CONTAINER_NAME) > $(CONTAINER_NAME).tar && xz $(CONTAINER_NAME).tar
+	rm -f $(NAME).{tar,tar.xz}
+	$(COMMAND) image save $(NAME) > $(NAME).tar && xz $(NAME).tar
 .PHONY : save
-
-halt: arch
-	limactl stop -f podman-$(ARCH)
-.PHONY : halt
-
-reset: arch
-	limactl factory-reset podman-$(ARCH)
-.PHONY : reset
 
 all: clean build start
 .PHONY : all
+
+
+# Manage Lima ENV
+create: arch
+	limactl delete --yes --force $(ARCH)
+	limactl create --yes --name=$(ARCH) template:$(ARCH)
+.PHONY : halt
+
+boot: arch
+	limactl start $(ARCH)
+.PHONY : halt
+
+halt: arch
+	limactl stop --force $(ARCH)
+.PHONY : halt
+
+shell: arch
+	limactl shell $(ARCH)
+.PHONY : shell
+
+reset: arch stop
+	limactl factory-reset $(ARCH)
+.PHONY : reset

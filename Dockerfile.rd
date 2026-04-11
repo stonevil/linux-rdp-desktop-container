@@ -30,23 +30,20 @@ MAINTAINER stone
 LABEL io.stone.tags="rdp, openbox, alpine"
 
 RUN echo "Let's build container" && \
+	echo "Container architecture: $(uname -m)" & \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
-	apk --no-cache add doas bash zsh ncurses neovim fzf wget xz 7zip pwgen cracklib openssl clamav && \
+	apk --no-cache add doas bash zsh ncurses neovim fzf wget xz 7zip pwgen cracklib openssl && \
 	echo 'permit nopass :wheel' > /etc/doas.d/remote.conf && \
 	ln -sf /usr/bin/doas /usr/bin/sudo && \
 	apk --no-cache add alpine-conf && \
-	apk --no-cache add xf86-video-vesa xf86-video-fbdev && \
+	if [[ $(uname -m) == "x86_64" ]]; then apk --no-cache add xf86-video-vesa xf86-video-fbdev; fi && \
 	setup-xorg-base || true && \
 	apk --no-cache add xrdp xorgxrdp && \
 	apk --no-cache add openbox dmenu xterm setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
 	apk --no-cache add breeze-gtk breeze-icons && \
-	# apk --no-cache add tint2 && \
-	# apk --no-cache add yaru-theme-sage --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-	# apk --no-cache add yaru-icon-theme-sage --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
 	apk --no-cache add thunar thunar-archive-plugin xarchiver ristretto mousepad && \
-	apk --no-cache add mpv ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
 	apk --no-cache add librewolf --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
 	ln -sf /usr/bin/nvim /usr/bin/v && \
 	ln -sf /usr/bin/nvim /usr/bin/vi && \
