@@ -31,6 +31,10 @@ stop: arch
 	$(COMMAND) stop $(NAME)
 .PHONY : stop
 
+logs: arch
+	$(COMMAND) logs $(NAME)
+.PHONY : stop
+
 remove: arch
 	$(COMMAND) rm -f $(NAME)
 .PHONY : remove
@@ -66,6 +70,6 @@ shell: arch
 	limactl shell $(ARCH)
 .PHONY : shell
 
-reset: arch stop
+reset: arch
 	limactl factory-reset $(ARCH)
 .PHONY : reset
