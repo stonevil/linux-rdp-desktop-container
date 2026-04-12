@@ -18,7 +18,7 @@ build: arch
 	 $(COMMAND) build --squash-all --rm --tag $(NAME) -f Dockerfile.$(NAME) -t $(NAME) .
 .PHONY : build
 
-run: arch remove
+run: arch rmall
 	$(COMMAND) run -d --shm-size="1gb" --memory="4gb" --name="$(NAME)" -p 3389:3389 -e PUID=${UID} -e PGID=${GID} localhost/$(NAME)
 	$(COMMAND) exec -it $(NAME) bash -c 'cat /remote'
 .PHONY : start
@@ -35,9 +35,13 @@ logs: arch
 	$(COMMAND) logs $(NAME)
 .PHONY : stop
 
-remove: arch
-	$(COMMAND) rm -f $(NAME)
-.PHONY : remove
+rm: arch
+	$(COMMAND) rm --force $(NAME)
+.PHONY : rm
+
+rmall: arch
+	$(COMMAND) rm --force --all
+.PHONY : rmall
 
 clean: arch
 	$(COMMAND) image rm -f localhost/$(NAME)
