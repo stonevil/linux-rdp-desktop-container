@@ -10,7 +10,7 @@ RUN echo "Let's build container" && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
 	apk --no-cache add ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
-	apk --no-cache add qbittorrent --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
+	apk --no-cache add qbittorrent && \
 	rm -rf /tmp/* /var/cache/apk/* /var/log/*
 
 ENV LANG="en_US.UTF-8"
@@ -22,7 +22,7 @@ ENV UID_MIN=501
 
 ENV PUID=${PUID:-1000}
 ENV PGID=${PGID:-1000}
-ENV PTZ=${PTZ:-Etc/UTC}
+ENV TZ=${TZ:-Etc/UTC}
 
 EXPOSE 3389/tcp
 
