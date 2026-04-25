@@ -32,11 +32,6 @@
 			</item>
 		</menu>
 		<menu id="media" label="  Media">
-			<item label="  Image Viewer">
-				<action name="Execute">
-					<command>ristretto</command>
-				</action>
-			</item>
 			<item label="  Video Convertor">
 				<action name="Execute">
 					<command>ghb</command>
