@@ -35,6 +35,7 @@ RUN echo "Let's build container" && \
 	ln -sf /usr/bin/nvim /usr/bin/v && \
 	ln -sf /usr/bin/nvim /usr/bin/vi && \
 	ln -sf /usr/bin/nvim /usr/bin/vim && \
+	ln -sf /usr/share/zoneinfo/Europe/Kyiv /etc/localtime && \
 	dnf clean all && \
 	rm -rf /tmp/* /var/log/* /var/cache/libdnf/* /var/cache/libdnf5/*
 
