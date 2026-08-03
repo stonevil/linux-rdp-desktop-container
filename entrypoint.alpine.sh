@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+ln -sf /usr/share/zoneinfo/${TZ:-Etc/UTC} /etc/localtime && \
+
 if ! id remote >/dev/null 2>&1; then
 	remote_p=$(pwgen 12 1)
 	echo ${remote_p} > /remote
