@@ -1,7 +1,7 @@
 # vim:ft=Dockerfile
 
 # Build required tools
-FROM alpine:${TAG:-3.24} AS builder
+FROM alpine:${TAG:-3.23} AS builder
 RUN echo "Let's build bgs" && \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
@@ -47,7 +47,7 @@ RUN echo "Let's build container" && \
 	apk --no-cache add openbox dmenu xterm setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
 	apk --no-cache add breeze-gtk breeze-icons && \
 	apk --no-cache add thunar thunar-archive-plugin xarchiver mousepad feh mpv && \
-	apk --no-cache add librewolf --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community && \
+	apk --no-cache add librewolf --repository=https://dl-cdn.alpinelinux.org/alpine/v3.24/community && \
 	ln -sf /usr/bin/nvim /usr/bin/v && \
 	ln -sf /usr/bin/nvim /usr/bin/vi && \
 	ln -sf /usr/bin/nvim /usr/bin/vim && \
