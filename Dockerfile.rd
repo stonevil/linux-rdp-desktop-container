@@ -1,7 +1,7 @@
 # vim:ft=Dockerfile
 
 # Build required tools
-FROM alpine:${TAG:-3.23} AS builder
+FROM alpine:${TAG:-3.24} AS builder
 RUN echo "Let's build bgs" && \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
