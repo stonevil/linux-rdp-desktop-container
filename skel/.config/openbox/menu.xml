@@ -34,7 +34,7 @@
 			</item>
 		</menu>
 		<separator label="System" />
-		<item label="  Reconfigure">
+		<item label="  Reconfigure">
 			<action name="Reconfigure" />
 		</item>
 	</menu>
