@@ -1,12 +1,12 @@
 # vim:ft=Dockerfile
 
 # Build required tools
-FROM alpine:${TAG:-3.23} AS builder
+FROM alpine:${TAG:-3.24} AS builder
 RUN echo "Let's build bgs" && \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
-	apk --no-cache add git make gcc musl-dev libx11-dev libxft-dev imlib2-dev libxinerama-dev clang21 glib-dev curl jq && \
+	apk --no-cache add git make clang22 gcc musl-dev libx11-dev libxft-dev imlib2-dev libxinerama-dev clang21 glib-dev curl jq && \
 	cd ~ && \
 	git clone https://github.com/Gottox/bgs.git && \
 	cd bgs && \
@@ -28,7 +28,7 @@ RUN echo "Let's download unrar" && \
 	chmod 755 /tmp/unrar
 
 # Build main container
-FROM alpine:${TAG:-3.23}
+FROM alpine:${TAG:-3.24}
 MAINTAINER stone
 LABEL io.stone.tags="rdp, openbox, alpine"
 
