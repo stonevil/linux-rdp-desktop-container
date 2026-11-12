@@ -6,10 +6,8 @@ LABEL io.stone.tags="rdp, openbox, alpine, internet, media"
 
 RUN echo "Let's build container" && \
 	echo "Container architecture: $(uname -m)" & \
-	apk --no-cache add ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno && \
-	apk --no-cache add qbittorrent librewolf && \
-	apk --no-cache add clamav freshclam && \
-	rm -rf /tmp/* /var/cache/apk/* /var/log/*
+	apk --no-cache add ffmpeg ffmpeg-libavcodec openh264 x265 handbrake-gtk yt-dlp yt-dlp-ejs-rt-deno deno qbittorrent && \
+	rm -rf /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
 ENV LANG="en_US.UTF-8"
 ENV LANGUAGE="en_US:UTF-8"

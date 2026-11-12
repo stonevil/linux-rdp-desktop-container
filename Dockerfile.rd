@@ -1,12 +1,12 @@
 # vim:ft=Dockerfile
 
 # Build required tools
-FROM alpine:${TAG:-3.24} AS builder
+FROM alpine:${TAG:-3.23} AS builder
 RUN echo "Let's build bgs" && \
 	apk --no-cache update && \
 	apk --no-cache upgrade && \
 	apk --update fix && \
-	apk --no-cache add git make clang22 gcc musl-dev libx11-dev libxft-dev imlib2-dev libxinerama-dev clang21 glib-dev curl jq && \
+	apk --no-cache add git make gcc musl-dev libx11-dev libxft-dev imlib2-dev libxinerama-dev clang21 glib-dev curl jq && \
 	cd ~ && \
 	git clone https://github.com/Gottox/bgs.git && \
 	cd bgs && \
@@ -28,7 +28,7 @@ RUN echo "Let's download unrar" && \
 	chmod 755 /tmp/unrar
 
 # Build main container
-FROM alpine:${TAG:-3.24}
+FROM alpine:${TAG:-3.23}
 MAINTAINER stone
 LABEL io.stone.tags="rdp, openbox, alpine"
 
@@ -41,17 +41,15 @@ RUN echo "Let's build container" && \
 	echo 'permit nopass :wheel' > /etc/doas.d/remote.conf && \
 	ln -sf /usr/bin/doas /usr/bin/sudo && \
 	apk --no-cache add alpine-conf && \
-	if [[ $(uname -m) == "x86_64" ]]; then apk --no-cache add xf86-video-vesa xf86-video-fbdev; fi && \
 	setup-xorg-base || true && \
 	apk --no-cache add xrdp xorgxrdp && \
-	apk --no-cache add openbox dmenu xterm setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd && \
-	apk --no-cache add breeze-gtk breeze-icons && \
+	apk --no-cache add openbox dmenu xterm setxkbmap xclip font-fira-code-nerd font-fira-mono-nerd breeze-gtk breeze-icons && \
 	apk --no-cache add thunar thunar-archive-plugin xarchiver mousepad feh mpv && \
 	apk --no-cache add librewolf --repository=https://dl-cdn.alpinelinux.org/alpine/v3.24/community && \
 	ln -sf /usr/bin/nvim /usr/bin/v && \
 	ln -sf /usr/bin/nvim /usr/bin/vi && \
 	ln -sf /usr/bin/nvim /usr/bin/vim && \
-	rm -rf /tmp/* /var/cache/apk/* /var/log/*
+	rm -rf /tmp/* /var/cache/apk/* /var/log/* /root/.cache
 
 COPY --from=builder /tmp/bgs /usr/bin/bgs
 COPY --from=builder /tmp/xdgctl /usr/bin/xdgctl
